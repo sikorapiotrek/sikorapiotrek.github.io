@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piotr Sikora - Data Science Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off-white: #f7f6f3;
+      --light-gray: #ebebeb;
+      --mid-gray: #999;
+      --dark-gray: #444;
+      --black: #111;
+      --tag-bg: #f0eeea;
+      --tag-text: #555;
+      --nav-height: 7rem;
+      --footer-height: 4rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      color: var(--black);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--light-gray);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; z-index: 100;
+    }
+
+    .nav-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem; letter-spacing: 0.01em;
+      color: var(--black); text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      text-decoration: none; font-size: 0.88rem; font-weight: 400;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--mid-gray); transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    /* SECTIONS */
+    section { padding: 3rem 5%; scroll-margin-top: var(--nav-height); min-height: 100vh;;}
+    section:nth-child(even) { background: var(--off-white); }
+
+    .section-label {
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mid-gray); margin-bottom: 3rem;
+    }
+
+    /* HERO */
+    #home {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 4rem;
+    }
+
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+      width: 100%; max-width: 1100px; margin: 0 auto;
+    }
+
+    .hero-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 1.5rem; color: var(--black);
+    }
+
+    .hero-text h1 em { font-style: italic; color: var(--mid-gray); }
+
+    .hero-text p {
+      font-size: 1.05rem; color: var(--dark-gray);
+      max-width: 420px; margin-bottom: 2rem;
+    }
+
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-block; padding: 0.65rem 1.5rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      font-weight: 400; letter-spacing: 0.03em;
+      text-decoration: none; border-radius: 3px;
+      transition: all 0.2s; cursor: pointer;
+    }
+
+    .btn-dark { background: var(--black); color: var(--white); border: 1px solid var(--black); }
+    .btn-dark:hover { background: var(--dark-gray); border-color: var(--dark-gray); }
+    .btn-outline { background: transparent; color: var(--black); border: 1px solid var(--light-gray); }
+    .btn-outline:hover { border-color: var(--dark-gray); }
+    .btn-contact { background: var(--white); color: var(--black); border: 1px solid var(--light-gray); width: 10rem; text-align: center; }
+    .btn-contact:hover { background: var(--dark-gray); border-color: var(--dark-gray); color: var(--white);}
+    
+
+    .hero-photo-wrap { display: flex; justify-content: center; }
+
+    .hero-photo { width: 70%; height: 70%; object-fit: cover; border-radius: 4px; }
+
+    .photo-placeholder {
+      width: 320px; height: 380px;
+      background: var(--light-gray); border-radius: 4px;
+      display: flex; align-items: flex-end; padding: 1.5rem;
+    }
+
+    .photo-placeholder span { font-size: 0.82rem; color: var(--mid-gray); }
+
+    .skills-strip {
+      margin-top: 2.5rem; padding-top: 2rem;
+      border-top: 1px solid var(--light-gray);
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+
+    .tag {
+      display: inline-block; padding: 0.3rem 0.75rem;
+      background: var(--tag-bg); color: var(--tag-text);
+      font-size: 0.82rem; border-radius: 2px; font-weight: 400;
+    }
+
+    /* MEDIA THUMBNAIL (shared by project cards & credential cards) */
+    .card-media img, .card-media video {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.3s;
+    }
+
+    .card-media img, .card-media video {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.3s;
+    }
+
+    .card-media:hover img,
+    .card-media:hover video { transform: scale(1.03); }
+
+    .card-media video { pointer-events: none; }
+
+    .media-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .card-media:hover .media-overlay { background: rgba(0,0,0,0.18); }
+
+    .media-icon {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.85);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .card-media:hover .media-icon { opacity: 1; transform: scale(1); }
+    .media-icon svg { width: 18px; height: 18px; fill: var(--black); }
+
+    /* PORTFOLIO */
+    #portfolio { max-width: none; }
+    .portfolio-inner { max-width: 1100px; margin: 0 auto; }
+
+    .projects-grid {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card {
+      display: block;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--light-gray);
+      background: none;
+      border-radius: 0;
+      overflow: visible;
+    }
+
+    .project-card:first-child { border-top: 1px solid var(--light-gray); }
+
+    .card-media {
+      position: relative; width: 100%;
+      aspect-ratio: 4/3; background: var(--light-gray);
+      overflow: hidden; cursor: pointer;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .card-body { display: flex; flex-direction: column; justify-content: center; }
+
+
+    .project-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2em; line-height: 1.2;
+      margin-bottom: 0.65rem; color: var(--black);
+    }
+
+    .project-card p { font-size: 1rem; color: var(--dark-gray); margin-bottom: 1.1rem; max-width: 600px; }
+
+    .project-result {
+      font-size: 1rem; color: var(--black);
+      padding: 0.55rem 0.9rem;
+      background: var(--off-white);
+      border-left: 2px solid var(--black);
+      margin-bottom: 1.25rem;
+      max-width: 500px;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; margin-top: 1rem; }
+
+    .project-link {
+      font-size: 0.85rem; font-weight: 500; color: var(--black);
+      text-decoration: none; letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--black); padding-bottom: 1px;
+      transition: opacity 0.2s; align-self: flex-start;
+      margin-top: 1rem;
+    }
+
+    .project-link:hover { opacity: 0.5; }
+
+    @media (max-width: 640px) {
+      .project-card { grid-template-columns: 1fr; gap: 0rem; }
+    }
+
+    /* CREDENTIALS */
+    #credentials { max-width: none; }
+    .credentials-inner { max-width: 1100px; margin: 0 auto; }
+
+    .cred-grid {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cred-card {
+      display: flex;              /* Enable flex layout */
+      flex-direction: row;        /* Text left, image right */
+      align-items: flex-start;    /* Align items to top */
+      gap: 2.5rem;                /* Space between text and image */
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--light-gray);
+      background: none;
+    }
+    
+    .cred-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2em; line-height: 1.2;
+      margin-bottom: 0.65rem; color: var(--black);
+    }
+
+    .cred-card .card-body {
+      flex: 1 1 60%;              /* Text takes ~60% width */
+      min-width: 0;               /* Prevent overflow issues */
+    }
+
+    .cred-card .card-media {
+      flex: 0 0 35%;              /* Image takes ~35% width */
+      aspect-ratio: 4/3;          /* Adjust ratio as needed */
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .cred-card:first-child { border-top: 1px solid var(--light-gray); }
+
+    .yt-thumb-link {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--light-gray);
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .yt-thumb-link img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .yt-thumb-link:hover img { transform: scale(1.03); }
+
+    .yt-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.15);
+      transition: background 0.2s;
+    }
+
+    .yt-thumb-link:hover .yt-play-btn { background: rgba(0,0,0,0.3); }
+
+    .cred-card:first-child, .project-card:first-child { 
+      border-top: 1px solid var(--light-gray); 
+    }
+
+    .cred-type {
+      font-size: 0.85rem; font-weight: 500;
+      text-transform: uppercase; color: var(--mid-gray);
+      letter-spacing: 0.04em; margin-bottom: 0.5rem;
+    }
+    /* IMAGE STYLING */
+    .card-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9; /* Standard landscape for certs/photos */
+      background: var(--off-white);
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card-media:hover img {
+      transform: scale(1.05);
+    }
+
+    /* MOBILE REFRAIN */
+    @media (max-width: 850px) {
+      .cred-card {
+        flex-direction: column;   /* Stack on mobile */
+        gap: 1.5rem;
+      }
+
+      .cred-card .card-body,
+      .cred-card .card-media {
+        flex: 1 1 100%;           /* Full width on mobile */
+      }
+
+      .card-media {
+        order: -1;                /* Keep image on top */
+      }
+    }
+
+    /* CONTACT */
+    #contact {
+      min-height: calc(100vh - var(--nav-height));
+      display: flex;
+      align-items: center;
+      text-align: center;
+      background: var(--off-white);
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .contact-inner {
+      align-items: center;
+      width: 100%; max-width: 1100px; 
+      margin: 0 auto;
+    }
+
+    .contact-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    .contact-title em {
+      font-style: italic;
+      color: var(--mid-gray);
+    }
+
+    .contact-text {
+      font-size: 1rem;
+      color: var(--dark-gray);
+      margin-bottom: 2rem;
+    }
+
+
+    /* FOOTER */
+    footer {
+        padding: 3rem 5%;
+        border-top: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    footer p { font-size: 0.85rem; color: var(--mid-gray); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.85rem; color: var(--mid-gray); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--black); }
+
+    /* LIGHTBOX */
+    .lb-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 999;
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+
+    .lb-backdrop.open { display: flex; }
+
+    .lb-inner {
+      position: relative; max-width: 900px; width: 100%;
+    }
+
+    .lb-inner img, .lb-inner video {
+      width: 100%; max-height: 80vh; object-fit: contain;
+      border-radius: 3px; display: block;
+    }
+
+    .lb-caption {
+      margin-top: 1rem; font-size: 0.88rem;
+      color: rgba(255,255,255,0.6); text-align: center;
+    }
+
+    .lb-close {
+      position: absolute; top: -2.5rem; right: 0;
+      background: none; border: none; color: white;
+      font-size: 1.5rem; cursor: pointer; line-height: 1;
+      opacity: 0.7; transition: opacity 0.2s;
+    }
+
+    .lb-close:hover { opacity: 1; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-photo-wrap { order: -1; }
+      .photo-placeholder { width: 100%; max-width: 300px; height: 300px; margin: 0 auto; }
+      .nav-links { gap: 1.5rem; }
+      nav { padding: 0 4%; }
+      section { padding: 4rem 4%; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links a { font-size: 0.78rem; }
+      .hero-text h1 { font-size: 2.5rem; }
+    }
+
+    /* FADE-IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ats-keywords {
+      position: absolute;
+      left: -9999px;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIGHTBOX -->
+  <div class="lb-backdrop" id="lightbox" role="dialog" aria-modal="true">
+    <div class="lb-inner" id="lb-inner">
+      <button class="lb-close" id="lb-close" aria-label="Close">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#home" class="nav-name">Piotr Sikora</a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="fade-in">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Data Science<br><em>student &amp;</em><br>aspiring analyst.</h1>
+        <p>
+          I'm a third year student pursuing a degree in Mathematical Methods in Data Analysis at Politechnika Łódzka, passionate about turning messy data into clear decisions. Currently looking for a data science internship this summer after I come back from an Erasmus exchange in late June.
+        </p>
+        <div class="hero-links">
+          <a href="#portfolio" class="btn btn-dark">View my projects</a>
+          <a href="assets/files/cv.pdf" class="btn btn-outline" download>Download CV</a>
+        </div>
+        <div class="skills-strip">
+          <span class="tag">Python</span>
+          <span class="tag">R</span>
+          <span class="tag">Apache Spark</span>
+          <span class="tag">Kafka</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">transformers</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">time series</span>
+          <span class="tag">NLP</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Flask</span>
+          <span class="tag">ggplot2</span>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+       <img src="assets/images/profile.jpg" alt="Piotr Sikora" class="hero-photo" /> 
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="fade-in">
+    <div class="portfolio-inner">
+      <p class="section-label">Portfolio</p>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="card-body">
+            <h3>NBA Player Salary Prediction - Real-Time ML Pipeline</h3>
+            <p>End-to-end machine learning system that predicts NBA player salaries from on-court performance statistics. Built around a real-time data pipeline using Apache Kafka for streaming and Apache Spark for large-scale processing. Multiple ML models are trained and compared via a Flask API, with the full stack containerised in Docker.</p>
+            <div class="project-result">End-to-end pipeline from streaming ingestion to model comparison, deployed via Flask in a fully containerised environment.</div>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">Apache Spark</span><span class="tag">Kafka</span><span class="tag">PySpark ML</span><span class="tag">Flask</span><span class="tag">Docker</span>
+            </div>
+            <a href="https://github.com/sikorapiotrek/nba_salary_prediction" class="project-link" target="_blank">View on GitHub →</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-body">
+            <h3>Emotion Analysis of Death Row Last Statements via Knowledge Distillation</h3>
+            <p>Emotion recognition on the final statements of Texas death row inmates - a dataset with no ground truth labels. A pretrained teacher model produces soft probability distributions over 6 emotion classes, which are used to fine-tune a DistilBERT student via KL divergence loss. Compared against a frozen DistilBERT baseline trained on hard labels with cross-entropy.</p>
+            <div class="project-result">Exploratory study comparing soft-label distillation vs. hard-label classification on sensitive, out-of-domain text.</div>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">DistilBERT</span><span class="tag">NLP</span><span class="tag">knowledge distillation</span><span class="tag">transformers</span><span class="tag">scikit-learn</span>
+            </div>
+            <a href="https://github.com/sikorapiotrek/emotion_analysis" class="project-link" target="_blank">View on GitHub →</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-body">
+            <h3>Financial Market Forecasting with Time Series Models</h3>
+            <p>Decomposition, stationarity analysis, and forecasting of two index fund indices - tracking price changes and trading volume - using ARIMA and ETS models. The pipeline covers the full workflow from raw data ingestion to model evaluation and forecast visualisation.</p>
+            <div class="project-result">Exploratory forecasting study comparing ARIMA and ETS across two indices, with stationarity tested via ADF and KPSS tests.</div>
+            <div class="project-tags">
+              <span class="tag">R</span><span class="tag">Python</span><span class="tag">ARIMA</span><span class="tag">ETS</span><span class="tag">time series</span>
+            </div>
+            <a href="https://github.com/sikorapiotrek/time_series_index_funds" class="project-link" target="_blank">View on GitHub →</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-body">
+            <h3>R Data Visualisation Reports - Salaries & Consumer Behaviour</h3>
+            <p>Two reproducible R Markdown reports exploring real-world datasets through exploratory data analysis. The first analyses trends in data science salaries across roles, experience levels, and geographies. The second examines consumer shopping behaviour patterns, uncovering seasonal and demographic signals.</p>
+            <div class="project-result">Two reproducible EDA reports with ggplot2 visualisations exploring salary trends and consumer behaviour patterns.</div>
+            <div class="project-tags">
+              <span class="tag">R</span><span class="tag">R Markdown</span><span class="tag">ggplot2</span><span class="tag">EDA</span>
+            </div>
+            <a href="https://github.com/sikorapiotrek/data_viz_projects_r" class="project-link" target="_blank">View on GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+<section id="credentials" class="fade-in">
+    <div class="credentials-inner">
+      <p class="section-label">Credentials</p>
+      <div class="cred-grid">
+
+        <div class="cred-card">
+          <div class="card-body">
+            <p class="cred-type">Conference Speaker</p>
+            <h3>"Making Sense of Higher Dimensions"</h3>
+            <div class="project-result">Best Lecture in English — MathUp 2025</div>
+            <p>A deep dive into dimensionality reduction techniques presented at Politechnika Łódzka. Awarded top honors by the Director of the International Faculty of Engineering.</p>
+            <div class="project-tags">
+              <span class="tag">Public Speaking</span>
+              <span class="tag">Presentation skills</span>
+            </div>
+            <a href="https://www.youtube.com/watch?v=0MGdjux7eac&t=12375s" class="project-link" target="_blank">Watch on YouTube →</a>
+            
+          </div>
+
+          <div class="card-media">
+            <img src="assets/images/conference.jpg" alt="Speaking at MathUp Conference">
+          </div>
+        </div>
+
+        <div class="cred-card">
+          <div class="card-body">
+            <p class="cred-type">Scholarship</p>
+            <h3>Rector's Scholarship for Excellence</h3>
+            <div class="project-result">Awarded to Top 10% of Students</div>
+            <p>Recognized for maintaining a high GPA and contributing to the university's academic community at Politechnika Łódzka.</p>
+            <div class="project-tags">
+              <span class="tag">Academic Merit</span>
+              <span class="tag">Mathematics</span>
+            </div>
+          </div>
+
+          <div class="card-media">
+            <img src="assets/images/scholarship.png" alt="Rector's Scholarship Achievement">
+          </div>
+        </div>
+
+        <div class="cred-card">
+            <div class="card-body">
+              <p class="cred-type">Athletic Achievement </p>
+            
+              <h3>National-Level Rugby Athlete</h3>
+            
+              <div class="project-result">
+                National team selections, 2 youth championships, 2 national league promotions
+              </div>
+          
+              <p>
+                Competed in rugby for 11 years, including selection for the national team and participation in national leagues at semi-professional level. 
+                Built experience in high-pressure, team-based environments requiring discipline, rapid decision-making, and long-term consistency.
+                The picture depicts me winning a lineout during a match in 2020, where my team secured promotion to the second highest division of polish rugby, 3 years later securing a promotion to the higest level of play. 
+                I retired from rugby in 2023 to focus on my academic development.
+              </p>
+          
+              <div class="project-tags">
+                <span class="tag">Teamwork</span>
+                <span class="tag">Leadership</span>
+                <span class="tag">Discipline</span>
+                <span class="tag">Performance under pressure</span>
+              </div>
+            </div>
+        
+            <div class="card-media">
+              <img src="assets/images/rugby.jpg" alt="National-level rugby achievement">
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- CONTACT HOOK -->
+<section id="contact" class="fade-in">
+  <div class="contact-inner">    
+
+    <h2 class="contact-title">
+      I want to build data-driven systems that scale.<br>
+      <em>Looking to contribute to real-world impact.</em>
+    </h2>
+
+    <p class="contact-text">
+      I'm currently seeking a data science / machine learning internship where I can apply statistical modeling, build production-ready pipelines, and work on meaningful problems.
+      <br><br>
+      If your team is hiring or working on something interesting, I’d be glad to connect.
+    </p>
+
+    <div class="contact-actions">
+      <a href="https://www.linkedin.com/in/piotr-sikora-319a1422a" target="_blank" class="btn btn-contact">LinkedIn</a>
+      <a href="mailto:sikorapiotrek2306@gmail.com" class="btn btn-contact">Email</a>
+    </div>
+
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Piotr Sikora</p>
+    <div class="footer-links">
+      <a href="assets/files/cv.pdf" download>Download CV</a>
+      <a href="https://github.com/sikorapiotrek" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/piotr-sikora-319a1422a" target="_blank">LinkedIn</a>
+      <a href="mailto:sikorapiotrek2306@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2});
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+  <!-- LIGHTBOX JS -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const lb = document.getElementById('lightbox');
+    const lbInner = document.getElementById('lb-inner');
+
+    function openLightbox(el) {
+      const type = el.dataset.type;
+      const src = el.dataset.src;
+      const caption = el.dataset.caption || '';
+
+      lbInner.querySelectorAll('img, video, .lb-caption').forEach(n => n.remove());
+
+      let media;
+      if (type === 'video') {
+        media = document.createElement('video');
+        media.src = src;
+        media.controls = true;
+        media.autoplay = true;
+        media.style.borderRadius = '3px';
+      } else {
+        media = document.createElement('img');
+        media.src = src;
+        media.alt = caption;
+      }
+      lbInner.appendChild(media);
+
+      if (caption) {
+        const cap = document.createElement('p');
+        cap.className = 'lb-caption';
+        cap.textContent = caption;
+        lbInner.appendChild(cap);
+      }
+
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+      const vid = lbInner.querySelector('video');
+      if (vid) vid.pause();
+    }
+</script>
+<div class="ats-keywords">
+  Data Science, Machine Learning, Python, R, SQL, Apache Spark, Kafka, 
+  Data Engineering, Time Series Forecasting, NLP, Deep Learning, PyTorch, 
+  scikit-learn, Feature Engineering, Model Evaluation, A/B Testing, 
+  Data Pipelines, ETL, Docker, Flask, REST APIs
+</div>
+</body>
+</html>

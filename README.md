@@ -1,1 +1,0 @@
-# sikorapiotrek.github.io
